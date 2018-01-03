@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema 
+	xmlns="http://www.w3.org/2001/XMLSchema"
+	xmlns:tmdl="http://www.tere.com/tmodelling/tmodel" 
+	targetNamespace="http://www.tere.com/tmodelling/tmodel">
+	<complexType name="TBase">
+		<sequence>
+			<element name="annotation" type="tmdl:TAnnotation" minOccurs="0" maxOccurs="unbounded"/>
+		</sequence>
+		<attribute name="name" type="string" use="required"/>
+	</complexType>
+	<complexType name="TBaseType">
+		<complexContent>
+			<extension base="tmdl:TBase">
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="TDataType">
+		<complexContent>
+			<extension base="tmdl:TBaseType">
+				<attribute name="instanceClassName" type="string" />
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="TCollection">
+		<complexContent>
+			<extension base="tmdl:TBase">
+				<attribute name="baseType" type="string" />
+				<attribute name="ordered" type="boolean" />
+				<attribute name="unique" type="boolean" />
+				<attribute name="sorted" type="boolean" />
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="TEnumLiteral">
+		<complexContent>
+			<extension base="tmdl:TBase">
+				<attribute name="ordinal" type="int" />
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="TEnum">
+		<complexContent>
+			<extension base="tmdl:TDataType">
+				<sequence>
+					<element name="literal" type="tmdl:TEnumLiteral" minOccurs="0"
+						maxOccurs="unbounded" />
+				</sequence>
+				<attribute name="defaultLiteralOrdinal" type="int" />
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="TElement">
+		<complexContent>
+			<extension base="tmdl:TBase">
+				<attribute name="unique" type="boolean" />
+				<attribute name="ordered" type="boolean" />
+				<attribute name="lowerBound" type="int" />
+				<attribute name="upperBound" type="int" />
+				<attribute name="readOnly" type="boolean" />
+				<attribute name="manditory" type="boolean" />
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="TParameter">
+		<complexContent>
+			<extension base="tmdl:TElement">
+				<attribute name="dataTypeName" type="string" />
+				<attribute name="length" type="int" />
+				<attribute name="scale" type="int" />
+				<attribute name="precision" type="int" />
+				<attribute name="format" type="string" />
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="TReference">
+		<complexContent>
+			<extension base="tmdl:TElement">
+				<attribute name="baseTypeName" type="string" use="required"/>
+				<attribute name="typeName" type="string" use="required"/>
+				<attribute name="aggregation" type="boolean" />
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="TAttribute">
+		<complexContent>
+			<extension base="tmdl:TElement">
+				<attribute name="dataTypeName" type="string" />
+				<attribute name="identity" type="boolean" />
+				<attribute name="length" type="int" />
+				<attribute name="scale" type="int" />
+				<attribute name="precision" type="int" />
+				<attribute name="format" type="string" />
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="TOperation">
+		<complexContent>
+			<extension base="tmdl:TBase">
+				<sequence>
+					<element name="returnType" type="tmdl:TBaseType" minOccurs="0"
+						maxOccurs="1" />
+					<element name="parameter" type="tmdl:TParameter"></element>
+				</sequence>
+				<attribute name="abstractMethod" type="boolean" />
+				<attribute name="unique" type="boolean" />
+				<attribute name="ordered" type="boolean" />
+				<attribute name="lowerBound" type="int" />
+				<attribute name="upperBound" type="int" />
+				<attribute name="readOnly" type="boolean" />
+				<attribute name="manditory" type="boolean" />
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="TClass">
+		<complexContent>
+			<extension base="tmdl:TBaseType">
+				<sequence>
+					<element name="reference" type="tmdl:TReference" minOccurs="0"
+						maxOccurs="unbounded" />
+					<element name="attribute" type="tmdl:TAttribute" minOccurs="0"
+						maxOccurs="unbounded" />
+				</sequence>
+				<attribute name="parent" type="string" />
+				<attribute name="instanceClassName" type="string" />
+				<attribute name="abstract" type="boolean" />
+				<attribute name="baseClass" type="string" />
+				<attribute name="interface" type="boolean" />
+			</extension>
+		</complexContent>
+	</complexType>
+	<complexType name="TPackage">
+		<sequence>
+			<element name="tClass" type="tmdl:TClass" minOccurs="0" maxOccurs="unbounded"/>
+			<element name="tEnum" type="tmdl:TEnum" minOccurs="0" maxOccurs="unbounded"/>
+			<element name="tDataType" type="tmdl:TDataType" minOccurs="0" maxOccurs="unbounded"/>
+		</sequence>
+		<attribute name="name" type="string" />
+		<attribute name="namespace" type="string" />
+		<attribute name="packageType" type="string" use="required"/>
+		<attribute name="packageVersion" type="string" />
+	</complexType>
+	<complexType name="TAnnotationEntry">
+		<attribute name="name" type="string" />
+		<attribute name="Value" type="string" />
+	</complexType>
+	<complexType name="TAnnotation">
+		<sequence>
+			<element name="entry" type="tmdl:TAnnotationEntry" minOccurs="0" maxOccurs="unbounded"/>
+		</sequence>
+		<attribute name="name" type="string" />
+	</complexType>
+	<complexType name="TPackageCollection">
+		<sequence>
+			<element name="package" type="tmdl:TPackage" minOccurs="0" maxOccurs="unbounded"/>
+		</sequence>
+	</complexType>
+	<element name="packages" type="tmdl:TPackageCollection"/>
+</schema>

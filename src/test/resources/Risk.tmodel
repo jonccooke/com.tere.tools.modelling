@@ -1,0 +1,947 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<tmodel:packages xmlns:tmodel="http://www.tere.com/tmodelling/tmodel"
+	uiNamespace="com.tere.finance.risk.riskviewer.ui" servicesNamespace="com.tere.finance.risk.riskviewer.services"
+	dataNamespace="com.tere.finance.risk.riskviewer.data" 
+	platform="Java" baseNamespace="com.tere.finance.risk.riskviewer" name="RiskViewer">
+	<package namespace="com.tere.finance.risk.riskviewer.model"
+		name="Risk" packageTypeName="TJavaPackage" version="0.0.1">
+		<tClass abstract="false"
+			instanceClassName="com.tere.finance.risk.riskviewer.model.Counterparty"
+			name="Counterparty">
+			<annotation name="http://www.tere.com/tmodel/display">
+				<entry value="counterPartyName" name="displayElement" />
+			</annotation>
+			<attribute identity="true" type="long" name="counterPartyId" />
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true"
+				name="counterPartyName">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="40" name="length" />
+				</annotation>
+			</attribute>
+		</tClass>
+		<tClass abstract="false"
+			instanceClassName="com.tere.finance.risk.riskviewer.model.Agreement"
+			name="Agreement">
+			<annotation name="http://www.tere.com/tmodel/display">
+				<entry value="agreementId" name="displayElement" />
+			</annotation>
+			<reference aggregation="false" typeName="Counterparty"
+				baseTypeName="Agreement" manditory="true" readOnly="false"
+				upperBound="1" lowerBound="1" ordered="true" unique="true" name="entityA" />
+			<reference aggregation="false" typeName="Counterparty"
+				baseTypeName="Agreement" manditory="true" readOnly="false"
+				upperBound="1" lowerBound="1" ordered="true" unique="true" name="entityB" />
+			<attribute identity="true" type="long" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="agreementId" />
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true"
+				name="agreementTypeDescription">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="10000" name="length" />
+				</annotation>
+			</attribute>
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true"
+				name="agreementTypeName">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="1000" name="length" />
+				</annotation>
+			</attribute>
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true"
+				name="masterSupplimentary">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="10000" name="length" />
+				</annotation>
+			</attribute>
+			<attribute identity="false" type="long" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="productId" />
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="tradeNetId">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="20" name="length" />
+				</annotation>
+			</attribute>
+		</tClass>
+		<tClass abstract="false"
+			instanceClassName="com.tere.finance.risk.riskviewer.model.Collateral"
+			name="Collateral">
+			<reference aggregation="true" typeName="Counterparty"
+				baseTypeName="Collateral" manditory="true" readOnly="false"
+				upperBound="1" lowerBound="1" ordered="true" unique="true"
+				name="collateralCounterParty">
+			</reference>
+			<reference aggregation="true" typeName="Facility"
+				baseTypeName="Collateral" manditory="true" readOnly="false"
+				upperBound="1" lowerBound="1" ordered="true" unique="true" name="fac">
+			</reference>
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="clientType">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="1000" name="length" />
+				</annotation>
+			</attribute>
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="collateralName">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="1000" name="length" />
+				</annotation>
+			</attribute>
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="collateralCcy">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="1000" name="length" />
+				</annotation>
+			</attribute>
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true"
+				name="collateralCurrentProposed">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="1000" name="length" />
+				</annotation>
+			</attribute>
+			<attribute identity="false" type="date" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true"
+				name="collateralExpiryDate">
+			</attribute>
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true"
+				name="collateralProvider">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="1000" name="length" />
+				</annotation>
+			</attribute>
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true"
+				name="collateralValue">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="1000" name="length" />
+				</annotation>
+			</attribute>
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true"
+				name="collateralValueInGbp">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="1000" name="length" />
+				</annotation>
+			</attribute>
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true"
+				name="countryOfIssueOrAssets">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="1000" name="length" />
+				</annotation>
+			</attribute>
+			<attribute identity="false" type="BigDecimal"
+				readOnly="false" upperBound="1" lowerBound="0" ordered="true"
+				unique="true" name="facilitySecuredAmountGbp">
+			</attribute>
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="limitInGbp">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="1000" name="length" />
+				</annotation>
+			</attribute>
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="riskFactor">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="1000" name="length" />
+				</annotation>
+			</attribute>
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="securedAmount">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="1000" name="length" />
+				</annotation>
+			</attribute>
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="securedCcy">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="1000" name="length" />
+				</annotation>
+			</attribute>
+			<attribute identity="true" type="long" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="collateralId" />
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true"
+				name="facilityLimitInGbp">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="1000" name="length" />
+				</annotation>
+			</attribute>
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="collateralType">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="1000" name="length" />
+				</annotation>
+			</attribute>
+		</tClass>
+		<tClass abstract="false"
+			instanceClassName="com.tere.finance.risk.riskviewer.model.CollateralType"
+			name="CollateralType">
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true"
+				name="baselCollateralType">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="1000" name="length" />
+				</annotation>
+			</attribute>
+			<attribute identity="false" type="boolean"
+				readOnly="false" upperBound="1" lowerBound="0" ordered="true"
+				unique="true" name="charge">
+			</attribute>
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true"
+				name="collateralTypeName">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="1000" name="length" />
+				</annotation>
+			</attribute>
+			<attribute identity="true" type="long" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true"
+				name="collateralTypeId">
+			</attribute>
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="country">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="1000" name="length" />
+				</annotation>
+			</attribute>
+			<attribute identity="false" type="boolean"
+				readOnly="false" upperBound="1" lowerBound="0" ordered="true"
+				unique="true" name="defaultCountryRiskTransfer">
+			</attribute>
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="heldAt">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="1000" name="length" />
+				</annotation>
+			</attribute>
+			<attribute identity="false" type="boolean"
+				readOnly="false" upperBound="1" lowerBound="0" ordered="true"
+				unique="true" name="moneyMarket">
+			</attribute>
+			<attribute identity="false" type="boolean"
+				readOnly="false" upperBound="1" lowerBound="0" ordered="true"
+				unique="true" name="pickFlag">
+			</attribute>
+			<attribute identity="false" type="boolean"
+				readOnly="false" upperBound="1" lowerBound="0" ordered="true"
+				unique="true" name="riskFactor">
+			</attribute>
+			<attribute identity="false" type="boolean"
+				readOnly="false" upperBound="1" lowerBound="0" ordered="true"
+				unique="true" name="riskTransfer">
+			</attribute>
+		</tClass>
+		<tClass abstract="false"
+			instanceClassName="com.tere.finance.risk.riskviewer.model.Counterparty"
+			name="Counterparty">
+			<annotation name="http://www.tere.com/tmodel/display">
+				<entry value="counterpartyName" name="displayElement" />
+			</annotation>
+			<annotation name="dimension">
+				<entry value="evict" name="type" />
+				<entry value="LRU" name="evictStrategy" />
+				<entry value="500" name="evictThreshold" />
+			</annotation>
+			<reference aggregation="false" typeName="Country"
+				baseTypeName="Counterparty" manditory="false" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true"
+				name="countryOfIncorporation" />
+			<attribute identity="true" type="long" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="counterpartyId">
+			</attribute>
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true"
+				name="counterpartyName">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="1000" name="length" />
+				</annotation>
+				<annotation name="http://www.tere.com/tmodel/display">
+					<entry value="20" name="displayLength" />
+				</annotation>
+			</attribute>
+		</tClass>
+		<tClass abstract="false"
+			instanceClassName="com.tere.finance.risk.riskviewer.model.Exposure"
+			name="Exposure">
+			<attribute identity="false" type="long" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="collateralInd" />
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="cpartyType">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="1000" name="length" />
+				</annotation>
+			</attribute>
+			<attribute identity="false" type="integer"
+				readOnly="false" upperBound="1" lowerBound="0" ordered="true"
+				unique="true" name="exposureValue" />
+			<attribute identity="false" type="long" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="productGrpId" />
+			<attribute identity="false" type="long" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="scenarioId" />
+			<attribute identity="false" type="long" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="siteId" />
+			<attribute identity="false" type="long" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="stressInd" />
+			<attribute identity="false" type="long" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="stressTestId" />
+			<attribute identity="false" type="BigDecimal"
+				readOnly="false" upperBound="1" lowerBound="0" ordered="true"
+				unique="true" name="totalMTMValue" />
+			<attribute identity="true" type="long" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="exposureId" />
+			<attribute identity="false" type="long" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="counterpartyId" />
+		</tClass>
+		<tClass abstract="false"
+			instanceClassName="com.tere.finance.risk.riskviewer.model.Facility"
+			name="Facility">
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true"
+				name="currentProposedFlag">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="1000" name="length" />
+				</annotation>
+			</attribute>
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="facCcy">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="1000" name="length" />
+				</annotation>
+			</attribute>
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true"
+				name="facilityBookingOffice">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="1000" name="length" />
+				</annotation>
+			</attribute>
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true"
+				name="facilityClientName">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="1000" name="length" />
+				</annotation>
+			</attribute>
+			<attribute identity="false" type="date" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true"
+				name="facilityExpiryDate">
+			</attribute>
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true"
+				name="facilityGrossAmount">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="1000" name="length" />
+				</annotation>
+			</attribute>
+			<attribute identity="true" type="long" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="facilityId">
+			</attribute>
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true"
+				name="facilityLevelPurpose">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="1000" name="length" />
+				</annotation>
+			</attribute>
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="facilityLimit">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="1000" name="length" />
+				</annotation>
+			</attribute>
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true"
+				name="facilityLongTermAmount">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="1000" name="length" />
+				</annotation>
+			</attribute>
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true"
+				name="facilityMediumTermAmount">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="1000" name="length" />
+				</annotation>
+			</attribute>
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true"
+				name="facilityProductName">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="1000" name="length" />
+				</annotation>
+			</attribute>
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true"
+				name="facilitySettlementAmount">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="1000" name="length" />
+				</annotation>
+			</attribute>
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true"
+				name="facilityShortTermAmount">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="1000" name="length" />
+				</annotation>
+			</attribute>
+			<attribute identity="false" type="integer"
+				readOnly="false" upperBound="1" lowerBound="0" ordered="true"
+				unique="true" name="facilityTermInDays">
+			</attribute>
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true"
+				name="facilityTermInMonths">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="1000" name="length" />
+				</annotation>
+			</attribute>
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true"
+				name="facilityTermInYears">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="1000" name="length" />
+				</annotation>
+			</attribute>
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="facilityType">
+				<annotation name="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+					<entry value="element" name="kind" />
+					<entry value="facilityType" name="name" />
+					<entry value="##targetNamespace" name="namespace" />
+				</annotation>
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="1000" name="length" />
+				</annotation>
+			</attribute>
+			<attribute identity="false" type="long" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="mandCapId">
+				<annotation name="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+					<entry value="element" name="kind" />
+					<entry value="mandCapId" name="name" />
+					<entry value="##targetNamespace" name="namespace" />
+				</annotation>
+			</attribute>
+		</tClass>
+		<tClass abstract="false"
+			instanceClassName="com.tere.finance.risk.riskviewer.model.GroupAttributes"
+			name="GroupAttributes">
+			<annotation name="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+				<entry value="GroupAttributes" name="name" />
+				<entry value="elementOnly" name="kind" />
+			</annotation>
+			<attribute identity="false" type="long" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="gLClientTypeId">
+				<annotation name="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+					<entry value="element" name="kind" />
+					<entry value="gLClientTypeId" name="name" />
+					<entry value="##targetNamespace" name="namespace" />
+				</annotation>
+			</attribute>
+			<attribute identity="false" type="date" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="gPDGDate">
+				<annotation name="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+					<entry value="element" name="kind" />
+					<entry value="gPDGDate" name="name" />
+					<entry value="##targetNamespace" name="namespace" />
+				</annotation>
+			</attribute>
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="gPPrimaryModel">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="1000" name="length" />
+				</annotation>
+			</attribute>
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true"
+				name="groupCtyOfAssets">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="1000" name="length" />
+				</annotation>
+			</attribute>
+			<attribute identity="false" type="long" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true"
+				name="groupPrimaryExposurePolicyId">
+				<annotation name="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+					<entry value="element" name="kind" />
+					<entry value="groupPrimaryExposurePolicyId" name="name" />
+					<entry value="##targetNamespace" name="namespace" />
+				</annotation>
+			</attribute>
+			<attribute identity="false" type="long" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true"
+				name="groupSettlementExposurePolicyId">
+				<annotation name="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+					<entry value="element" name="kind" />
+					<entry value="groupSettlementExposurePolicyId" name="name" />
+					<entry value="##targetNamespace" name="namespace" />
+				</annotation>
+			</attribute>
+			<attribute identity="false" type="long" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true"
+				name="groupTradingExposurePolicyId">
+				<annotation name="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+					<entry value="element" name="kind" />
+					<entry value="groupTradingExposurePolicyId" name="name" />
+					<entry value="##targetNamespace" name="namespace" />
+				</annotation>
+			</attribute>
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true"
+				name="industrySegment">
+				<annotation name="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+					<entry value="element" name="kind" />
+					<entry value="industrySegment" name="name" />
+					<entry value="##targetNamespace" name="namespace" />
+				</annotation>
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="1000" name="length" />
+				</annotation>
+			</attribute>
+			<attribute identity="true" type="long" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true"
+				name="groupAttributesId" />
+			<attribute identity="false" type="long" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="groupId" />
+		</tClass>
+		<tClass abstract="false"
+			instanceClassName="com.tere.finance.risk.riskviewer.model.NettingSet"
+			name="NettingSet">
+			<attribute identity="false" type="boolean"
+				readOnly="false" upperBound="1" lowerBound="0" ordered="true"
+				unique="true" name="crossA" />
+			<attribute identity="false" type="boolean"
+				readOnly="false" upperBound="1" lowerBound="0" ordered="true"
+				unique="true" name="crossB" />
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="crossProduct">
+				<annotation name="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+					<entry value="element" name="kind" />
+					<entry value="crossProduct" name="name" />
+					<entry value="##targetNamespace" name="namespace" />
+				</annotation>
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="1000" name="length" />
+				</annotation>
+			</attribute>
+			<attribute identity="false" type="long" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="netting">
+				<annotation name="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+					<entry value="element" name="kind" />
+					<entry value="netting" name="name" />
+					<entry value="##targetNamespace" name="namespace" />
+				</annotation>
+			</attribute>
+			<attribute identity="true" type="long" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="nettingSetId" />
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="nettingType">
+				<annotation name="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+					<entry value="element" name="kind" />
+					<entry value="nettingType" name="name" />
+					<entry value="##targetNamespace" name="namespace" />
+				</annotation>
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="1000" name="length" />
+				</annotation>
+			</attribute>
+			<attribute identity="false" type="long" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="productId">
+				<annotation name="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+					<entry value="element" name="kind" />
+					<entry value="productId" name="name" />
+					<entry value="##targetNamespace" name="namespace" />
+				</annotation>
+			</attribute>
+			<attribute identity="false" type="long" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="tradeNetId">
+				<annotation name="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">
+					<entry value="element" name="kind" />
+					<entry value="tradeNetId" name="name" />
+					<entry value="##targetNamespace" name="namespace" />
+				</annotation>
+			</attribute>
+			<attribute identity="false" type="long" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="branchA" />
+			<attribute identity="false" type="long" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="branchB" />
+			<attribute identity="false" type="long" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="agreementId" />
+			<attribute identity="false" type="long" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="nettingId" />
+		</tClass>
+		<tClass abstract="false"
+			instanceClassName="com.tere.finance.risk.riskviewer.model.Exchange"
+			name="Exchange">
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="exchangeName">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="100" name="length" />
+				</annotation>
+			</attribute>
+			<attribute identity="true" type="long" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="exchangeId" />
+		</tClass>
+		<tClass abstract="false"
+			instanceClassName="com.tere.finance.risk.riskviewer.model.Instrument"
+			name="Instrument">
+			<annotation name="http://www.tere.com/tmodel/display">
+				<entry value="instrumentName" name="displayElement" />
+			</annotation>
+			<annotation name="dimension">
+				<entry value="full" name="type" />
+			</annotation>
+			<attribute identity="true" type="long" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="instrumentId" />
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="instrumentName">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="50" name="length" />
+				</annotation>
+			</attribute>
+			<attribute identity="false" type="boolean"
+				readOnly="false" upperBound="1" lowerBound="0" ordered="true"
+				unique="true" name="securitised" />
+		</tClass>
+		<tClass abstract="false"
+			instanceClassName="com.tere.finance.risk.riskviewer.model.InstrumentType"
+			name="InstrumentType">
+			<attribute identity="true" type="long" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true"
+				name="instrumentTypeId" />
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true"
+				name="instrumentTypeName">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="50" name="length" />
+				</annotation>
+			</attribute>
+		</tClass>
+		<tClass abstract="false"
+			instanceClassName="com.tere.finance.risk.riskviewer.model.Country"
+			name="Country">
+			<annotation name="http://www.tere.com/tmodel/display">
+				<entry value="countryName" name="displayElement" />
+			</annotation>
+			<attribute identity="true" type="long" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="countryId" />
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="countryName">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="50" name="length" />
+				</annotation>
+			</attribute>
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="alpha2">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="2" name="length" />
+				</annotation>
+			</attribute>
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="alpha3">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="3" name="length" />
+				</annotation>
+			</attribute>
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="ISONumber">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="3" name="length" />
+				</annotation>
+			</attribute>
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="ISOCode">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="20" name="length" />
+				</annotation>
+			</attribute>
+		</tClass>
+		<tClass abstract="false"
+			instanceClassName="com.tere.finance.risk.riskviewer.model.InstrumentCode"
+			name="InstrumentCode">
+			<annotation name="http://www.tere.com/tmodel/display">
+				<entry value="code" name="displayElement" />
+			</annotation>
+			<reference aggregation="false" typeName="Exchange"
+				baseTypeName="InstrumentCode" manditory="false" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="exchange" />
+			<reference aggregation="false" typeName="Instrument"
+				baseTypeName="InstrumentCode" manditory="false" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="instrument" />
+			<attribute identity="true" type="long" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true"
+				name="instrumentCodeId" />
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="code">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="30" name="length" />
+				</annotation>
+			</attribute>
+			<attribute identity="false" type="long" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="providerId" />
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="ISIN">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="20" name="length" />
+				</annotation>
+			</attribute>
+		</tClass>
+		<tClass abstract="false" instanceClassName="com.tere.finance.risk.riskviewer.model.Quote"
+			name="Quote">
+			<annotation name="http://www.tere.com/tmodel/display">
+				<entry value="price" name="displayElement" />
+			</annotation>
+			<attribute identity="true" type="long" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="quoteId" />
+			<attribute identity="false" type="BigDecimal"
+				readOnly="false" upperBound="1" lowerBound="0" ordered="true"
+				unique="true" name="price" />
+			<attribute identity="false" type="BigDecimal"
+				readOnly="false" upperBound="1" lowerBound="0" ordered="true"
+				unique="true" name="change" />
+			<attribute identity="false" type="long" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="volume" />
+			<attribute identity="false" type="date" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="lastUpdate" />
+			<attribute identity="false" type="date" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="tradeDate" />
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="code">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="20" name="length" />
+				</annotation>
+			</attribute>
+			<attribute identity="false" type="BigDecimal"
+				readOnly="false" upperBound="1" lowerBound="0" ordered="true"
+				unique="true" name="divdend" />
+			<attribute identity="false" type="date" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="tradeTime" />
+			<attribute identity="false" type="BigDecimal"
+				readOnly="false" upperBound="1" lowerBound="0" ordered="true"
+				unique="true" name="open" />
+			<attribute identity="false" type="BigDecimal"
+				readOnly="false" upperBound="1" lowerBound="0" ordered="true"
+				unique="true" name="high" />
+			<attribute identity="false" type="BigDecimal"
+				readOnly="false" upperBound="1" lowerBound="0" ordered="true"
+				unique="true" name="low" />
+			<attribute identity="false" type="BigDecimal"
+				readOnly="false" upperBound="1" lowerBound="0" ordered="true"
+				unique="true" name="close" />
+		</tClass>
+		<tClass abstract="false" instanceClassName="com.tere.finance.risk.riskviewer.model.Trade"
+			name="Trade">
+			<annotation name="http://www.tere.com/tmodel/display">
+				<entry value="tradeId" name="displayElement" />
+			</annotation>
+			<reference aggregation="false" typeName="Instrument"
+				baseTypeName="Trade" manditory="false" readOnly="false" upperBound="1"
+				lowerBound="0" ordered="true" unique="true" name="instrument" />
+			<reference aggregation="false" typeName="Country"
+				baseTypeName="Trade" manditory="false" readOnly="false" upperBound="1"
+				lowerBound="0" ordered="true" unique="true" name="countryId">
+				<annotation name="Aggregate">
+					<entry value="COUNT(notional)" name="type" />
+				</annotation>
+			</reference>
+			<reference aggregation="false" typeName="Sector"
+				baseTypeName="Trade" manditory="false" readOnly="false" upperBound="1"
+				lowerBound="0" ordered="true" unique="true" name="sectorId" />
+			<attribute identity="true" type="long" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="tradeId" />
+			<attribute identity="false" type="BigDecimal"
+				readOnly="false" upperBound="1" lowerBound="0" ordered="true"
+				unique="true" name="notional" />
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true"
+				name="externalTradeId">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="50" name="length" />
+				</annotation>
+			</attribute>
+			<attribute identity="false" type="date" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="tradeDate" />
+			<attribute identity="false" type="date" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="settlementDate" />
+		</tClass>
+		<tClass baseClass="com.tere.finance.risk.riskviewer.model.Trade"
+			abstract="false" instanceClassName="com.tere.finance.risk.riskviewer.model.OTCTrade"
+			parent="Trade" name="OTCTrade">
+			<reference aggregation="false" typeName="Counterparty"
+				baseTypeName="OTCTrade" manditory="false" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="counterpartyId" />
+			<attribute identity="false" type="BigDecimal"
+				readOnly="false" upperBound="1" lowerBound="0" ordered="true"
+				unique="true" name="strike" />
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true"
+				name="counterpartyName">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="200" name="length" />
+				</annotation>
+				<annotation name="http://www.tere.com/tmodel/display">
+					<entry value="20" name="displayLength" />
+				</annotation>
+			</attribute>
+		</tClass>
+		<tClass abstract="false" instanceClassName="com.tere.finance.risk.riskviewer.model.Book"
+			name="Book">
+			<annotation name="http://www.tere.com/tmodel/display">
+				<entry value="bookName" name="displayElement" />
+			</annotation>
+			<reference aggregation="false" typeName="Trade"
+				baseTypeName="Book" manditory="false" readOnly="false" upperBound="-1"
+				lowerBound="0" ordered="true" unique="true" name="trades">
+				<annotation name="http://www.tere.com/tmodel/display">
+					<entry value="Book" name="oppositeDisplayName" />
+				</annotation>
+			</reference>
+			<attribute identity="true" type="long" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="bookId" />
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="bookName">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="50" name="length" />
+				</annotation>
+			</attribute>
+		</tClass>
+		<tClass baseClass="com.tere.finance.risk.riskviewer.model.Trade"
+			abstract="false" instanceClassName="com.tere.finance.risk.riskviewer.model.EuropeanOption"
+			parent="OTCTrade" name="EuropeanOption">
+			<reference aggregation="false" typeName="Instrument"
+				baseTypeName="EuropeanOption" manditory="false" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="stock" />
+			<attribute identity="false" type="BigDecimal"
+				readOnly="false" upperBound="1" lowerBound="0" ordered="true"
+				unique="true" name="dividend" />
+			<attribute identity="false" type="date" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="maturityDate" />
+			<attribute identity="false" type="OptionType"
+				readOnly="false" upperBound="1" lowerBound="0" ordered="true"
+				unique="true" name="optionType" />
+			<operation abstract="false" returnTypeName="double"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="pv">
+				<parameter name="tradeDate" type="date" />
+			</operation>
+
+		</tClass>
+		<tClass abstract="false" instanceClassName="com.tere.finance.risk.riskviewer.model.Rate"
+			name="Rate">
+			<annotation name="http://www.tere.com/tmodel/display">
+				<entry value="rateValue" name="displayElement" />
+			</annotation>
+			<reference aggregation="false" typeName="Tenor"
+				baseTypeName="Rate" manditory="false" readOnly="false" upperBound="1"
+				lowerBound="0" ordered="true" unique="true" name="tenor" />
+			<attribute identity="true" type="long" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="rateId" />
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="rateType">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="50" name="length" />
+				</annotation>
+			</attribute>
+			<attribute identity="false" type="BigDecimal"
+				readOnly="false" upperBound="1" lowerBound="0" ordered="true"
+				unique="true" name="rateValue" />
+		</tClass>
+		<tClass abstract="false" instanceClassName="com.tere.finance.risk.riskviewer.model.Tenor"
+			name="Tenor">
+			<annotation name="http://www.tere.com/tmodel/display">
+				<entry value="tenorName" name="displayElement" />
+			</annotation>
+			<attribute identity="true" type="long" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="tenorId" />
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="tenorName">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="20" name="length" />
+				</annotation>
+			</attribute>
+		</tClass>
+		<tClass abstract="false"
+			instanceClassName="com.tere.finance.risk.riskviewer.model.Sector"
+			name="Sector">
+			<annotation name="http://www.tere.com/tmodel/display">
+				<entry value="sectorName" name="displayElement" />
+			</annotation>
+			<attribute identity="true" type="long" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="sectorId" />
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="sectorName">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="100" name="length" />
+				</annotation>
+			</attribute>
+		</tClass>
+		<tClass abstract="false"
+			instanceClassName="com.tere.finance.risk.riskviewer.model.RiskLimit"
+			name="RiskLimit">
+			<annotation name="http://www.tere.com/tmodel/display">
+				<entry value="limitType" name="displayElement" />
+			</annotation>
+			<annotation name="dimension">
+				<entry value="full" name="type" />
+			</annotation>
+			<attribute identity="true" type="long" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="riskLimitId" />
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="limitType">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="50" name="length" />
+				</annotation>
+			</attribute>
+			<attribute identity="false" type="BigDecimal"
+				readOnly="false" upperBound="1" lowerBound="0" ordered="true"
+				unique="true" name="limitAmount" />
+			<attribute identity="false" type="BigDecimal"
+				readOnly="false" upperBound="1" lowerBound="0" ordered="true"
+				unique="true" name="excessLimitAmount" />
+		</tClass>
+		<tClass baseClass="com.tere.finance.risk.riskviewer.model.RiskLimit"
+			abstract="false" instanceClassName="com.tere.finance.risk.riskviewer.model.CounterpartyLimit"
+			parent="RiskLimit" name="CounterpartyLimit">
+			<reference aggregation="false" typeName="Counterparty"
+				baseTypeName="CounterpartyLimit" manditory="false" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="counterparty" />
+		</tClass>
+		<tClass baseClass="com.tere.finance.risk.riskviewer.model.RiskLimit"
+			abstract="false" instanceClassName="com.tere.finance.risk.riskviewer.model.CountryLimit"
+			parent="RiskLimit" name="CountryLimit">
+			<reference aggregation="false" typeName="Country"
+				baseTypeName="CountryLimit" manditory="false" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="country" />
+		</tClass>
+		<tClass baseClass="com.tere.finance.risk.riskviewer.model.RiskLimit"
+			abstract="false" instanceClassName="com.tere.finance.risk.riskviewer.model.SectorLimit"
+			parent="RiskLimit" name="SectorLimit">
+			<reference aggregation="false" typeName="Sector"
+				baseTypeName="SectorLimit" manditory="false" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="sector" />
+		</tClass>
+		<tClass abstract="false" instanceClassName="com.tere.finance.risk.riskviewer.model.Feed"
+			name="Feed">
+			<annotation name="http://www.tere.com/tmodel/display">
+				<entry value="feedCode" name="displayElement" />
+			</annotation>
+			<attribute identity="true" type="long" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="feedId" />
+			<attribute identity="false" type="String" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="feedCode">
+				<annotation name="http://www.tere.com/tmodel/constraint">
+					<entry value="20" name="length" />
+				</annotation>
+			</attribute>
+			<attribute identity="false" type="date" readOnly="false"
+				upperBound="1" lowerBound="0" ordered="true" unique="true" name="feedLoadTime" />
+		</tClass>
+		<tEnum instanceClassName="OptionType" name="OptionType">
+			<literal ordinal="0" name="Get" />
+			<literal ordinal="1" name="Put" />
+		</tEnum>
+	</package>
+	<variables />
+</tmodel:packages>

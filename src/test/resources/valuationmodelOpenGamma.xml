@@ -1,0 +1,249 @@
+<?xml version="1.0" standalone="yes" ?>
+<model>
+	<package namespace="com.tere.finance.riskengine" name="Risk"
+		packageTypeName="TJavaPackage" version="1.0.0">
+		<tClass name="Company" label="{companyName}">
+			<attribute name="companyId" type="long" identity="true" />
+			<attribute name="companyName" type="string" />
+		</tClass>
+		<tClass name="DayCountConvention" label="{dayCountConventionName}">
+			<attribute name="dayCountConventionId" type="long"
+				identity="true" />
+			<attribute name="OGRef" type="string" />
+			<attribute name="dayCountConventionName" type="string" />
+			<attribute name="description" type="string" />
+		</tClass>
+		<tClass name="Country" label="{countryName}">
+			<attribute name="countryId" type="long" identity="true" />
+			<attribute name="countryName" type="string" />
+			<attribute name="alpha2" type="string" />
+			<attribute name="alpha3" type="string" />
+			<attribute name="iSONumber" type="integer" />
+		</tClass>
+		<tClass name="Calendar" label="{calendarName}">
+			<attribute name="calendarId" type="long" identity="true" />
+			<attribute name="calendarName" type="string" />
+			<attribute name="calendarRef" type="string" />
+			<attribute name="dates" type="date" lowerBound="0"
+				upperBound="-1" />
+			<reference name="country" type="Country" />
+		</tClass>
+		<tClass name="Quote" graph="true" label="{quoteName}">
+			<attribute name="quoteId" type="long" identity="true" />
+			<attribute name="quoteName" type="string" />
+			<attribute name="date" type="date" />
+			<attribute name="tenor" type="string" />
+			<attribute name="value" type="double" />
+
+		</tClass>
+
+		<tClass name="CurencyPair" label="{base}/{counter}">
+			<attribute name="curencyPairId" type="long" identity="true" />
+			<attribute name="base" type="string" />
+			<attribute name="counter" type="string" />
+			<attribute name="isConventional" type="boolean" />
+		</tClass>
+
+		<tClass name="IborIndexFixings" label="fix{iborIndex}:{date}">
+			<reference name="fixingsIborIndex" type="IborIndex" />
+			<attribute name="date" type="date" />
+			<attribute name="value" type="double" />
+		</tClass>
+		
+		<tClass name="IborIndex" label="{indexName}">
+			<attribute name="instrumentId" type="string" identity="true">
+				<constraints>
+					<constraint name="pattern" value="[0-9][10]" />
+				</constraints>
+			</attribute>
+			<attribute name="type" type="string" />
+			<attribute name="indexName" type="string" />
+			<attribute name="active" type="boolean" />
+			<reference name="dayConvention" type="DayCountConvention" />
+			<reference name="fixingCalendar" type="Calendar" />
+			<attribute name="offsetDays" type="integer" />
+			<reference name="offsetCalendar" type="Calendar" />
+			<attribute name="effectiveDateCalendar" type="date" />
+			<attribute name="tenor" type="string" />
+			<attribute name="tenorConvention" type="string" />
+			<attribute name="fixingTime" type="string" />
+			<attribute name="fixingZone" type="string" />
+		</tClass>
+		
+		<tClass name="Curve" graph="true" label="{curveName}">
+			<attribute name="curveId" type="long" identity="true" />
+			<attribute name="curveName" type="string" />
+			<attribute name="currency" type="string" />
+			<attribute name="curveType" type="string" />
+			<attribute name="effectiveDate" type="date" />
+			<attribute name="snaptime" type="time" />
+			<attribute name="spotdate" type="date" />
+			<attribute name="firstDate" type="date" />
+			<attribute name="lastDate" type="date" />
+			<reference name="calendar" type="Calendar" />
+			<attribute name="interpolationType" type="string" />
+			<attribute name="oGInterpolationType" type="string" />
+			<attribute name="badDayConvention" type="string" />
+			<reference name="dayConvention" type="DayCountConvention" />
+
+			<methods>
+			</methods>
+		</tClass>
+
+		<tClass name="IborCurve" parent="Curve" graph="true">
+			<reference name="quotes" type="Quote" lowerBound="0"
+				upperBound="-1" />
+		</tClass>
+		<tClass name="DiscountCurve" parent="Curve" label="{curveName}">
+			<reference name="parentCurve" type="IborCurve" />
+		</tClass>
+
+		<tClass name="IborSwap" graph="true" label="iborSwap:{tradeId}">
+			<attribute name="instrumentId" type="string" identity="true">
+				<constraints>
+					<constraint name="pattern" value="[0-9][10]" />
+				</constraints>
+			</attribute>
+			<attribute name="tradeId" type="string">
+				<constraints>
+					<constraint name="pattern" value="[0-9][10]" />
+				</constraints>
+			</attribute>
+			<attribute name="type" type="string" />
+			<reference name="iborIndex" type="IborIndex" />
+			<reference name="payParty" type="Company" />
+			<reference name="receiveParty" type="Company" />
+			<attribute name="tradeDate" type="date" />
+			<attribute name="issueDate" type="date" />
+			<attribute name="maturityDate" type="date" />
+			<attribute name="notional" type="double" />
+			<attribute name="fixedRate" type="double" />
+			<attribute name="frequency" type="string" />
+			<operation name="pv" returnType="ScalarMeasure">
+				<parameter name="valuationDate" type="date" />
+				<parameter name="floatingCurve" type="IborCurve" />
+				<parameter name="discountCurve" type="DiscountCurve" />
+			</operation>
+		</tClass>
+		<tClass name="Measure">
+			<attribute name="measureId" type="string" identity="true" />
+			<attribute name="measureName" type="string" />
+
+		</tClass>
+
+		<tClass name="ScalarMeasure" parent="Measure">
+			<attribute name="value" type="double" />
+
+		</tClass>
+
+		<!-- tClass name="PV" dataType="ScalarMeasure"> <annotation name="http://www.tere.com/tmodel/display"> 
+			<entry name="format" value="measureName:{measureId}" /> </annotation> </tClass -->
+	</package>
+	<tables>
+		<table name="CalendarDates" dataContext="csv"
+			path="src/test/resources/testdata/model/CalendarDates.csv" />
+		<table name="Company" dataContext="csv"
+			path="src/test/resources/testdata/model/Companies.csv" />
+		<table name="DayCountConventions" dataContext="csv"
+			path="src/test/resources/testdata/model/DayCountConventions.csv" />
+		<table name="Country" dataContext="csv"
+			path="src/test/resources/testdata/model/Countries.csv" />
+		<table name="IborIndices" dataContext="csv"
+			path="src/test/resources/testdata/model/IborIndices.csv" />
+		<table name="Calendar" dataContext="csv"
+			path="src/test/resources/testdata/model/Calendars.csv" />
+		<table name="Curve" dataContext="csv"
+			path="src/test/resources/testdata/model/Curve.csv" />
+		<table name="Quote" dataContext="csv"
+			path="src/test/resources/testdata/model/Quote.csv" />
+		<table name="QuoteCurve" dataContext="csv"
+			path="src/test/resources/testdata/model/QuoteCurve.csv" />
+		<table name="IborSwap" dataContext="csv"
+			path="src/test/resources/testdata/model/Swap.csv" />
+		<table name="IndexFixings" dataContext="csv"
+			path="src/test/resources/testdata/model/IndexFixings.csv" />
+	</tables>
+	<instances>
+		<instance name="{countryName}" type="Country"
+			sql="select id as countryId,Name as countryName,ISO2 as alpha2,ISO3 as alpha3,'ISO Numeric Code from Country' as iSONumber from Country">
+			<attributes />
+		</instance>
+		<instance name="{dayCountConventionName}" type="DayCountConvention"
+			sql="select id as dayCountConventionId,name as dayCountConventionName,OGRef,description from DayCountConventions">
+			<attributes />
+		</instance>
+		<instance name="{companyName}" type="Company"
+			sql="select id as companyId,CompanyName as companyName from Company">
+			<attributes />
+		</instance>
+		<instance name="{calendarName}" type="Calendar"
+			sql="select calendarName, calendarId, countryId as country, calendarRef from Calendar">
+			<attributes>
+				<attribute name="dates" sql="select date from CalendarDates where calendarId={calendarId}"/>
+			</attributes>
+			<reference name="country"
+				sql="select Name as countryName from Country where id='{country}'"></reference>
+		</instance>
+		<instance name="{quoteName}" type="Quote" sql="select * from Quote">
+			<attributes>
+				<attribute name="dates" sql="select date from CalendarDates where calendarId={calendarId}"/>
+			</attributes>
+		</instance>
+
+		<instance name="fix{iborIndex}:{date}" type="IborFixings" sql="select * from IborFixings">
+			<attributes />
+		</instance>
+		
+		<instance name="{curveName}" type="IborCurve"
+			sql="select curveId,curveName,BadDayConvention as badDayConvention,calendar,currency,DayConvention As dayConvention,effectiveDate,firstDate,lastDate,snaptime,spotdate,curveType,interpolationType,oGInterpolationType from Curve where curveType='ibor'">
+			<reference name="calendar"
+				sql="select calendarName from Calendar where calendarId='{calendar}'"></reference>
+			<reference name="quotes"
+				sql="select quoteName from QuoteCurve where curveId='{curveId}'"></reference>
+			<reference name="dayConvention"
+				sql="select name from DayCountConventions where name='{dayConvention}'"></reference>
+		</instance>
+
+		<instance name="{curveName}" type="DiscountCurve"
+			sql="select curveId,curveName,BadDayConvention as badDayConvention,calendar,currency,dayConvention,effectiveDate,firstDate,lastDate,snaptime,spotdate,curveType,interpolationType,oGInterpolationType from Curve where curveType='discount'">
+			<reference name="calendar"
+				sql="select calendarName from Calendar where calendarId='{calendar}'"></reference>
+			<reference name="quotes"
+				sql="select quoteName from QuoteCurve where curveId='{curveId}'"></reference>
+			<reference name="dayConvention"
+				sql="select name from DayCountConventions where name='{dayConvention}'"></reference>
+			<reference name="parentCurve" sql="select parentCurve from Curve 
+				where curveId='{curveId}'"/>
+		</instance>
+
+		<instance name="swapTradePv{tradeId}" type="ScalarMeasure">
+		</instance>
+		<instance name="{indexName}" type="IborIndex"
+			sql="select instrumentId, Name as indexName, type, Active as active, &quot;Fixing Calendar&quot; as fixingCalendar, &quot;Offset Days&quot; as offsetDays, &quot;Offset Calendar&quot; as offsetCalendar, &quot;Offset Days&quot; as offsetDays, &quot;Effective Date Calendar&quot; as effectiveDateCalendar, Tenor as tenor, &quot;Tenor Convention&quot; as tenorConvention, FixingTime as fixingTime, FixingZone as fixingZone from IborIndices">
+			<reference name="fixingCalendar"
+				sql="select calendarName from Calendar where calendarRef ='{fixingCalendar}'"></reference>
+			<reference name="offsetCalendar"
+				sql="select calendarName from Calendar where calendarRef ='{offsetCalendar}'"></reference>
+			<reference name="offsetCalendar"
+				sql="select calendarName from Calendar where effectiveDateCalendar='{effectiveDateCalendar}'"></reference>
+			<attributes />
+		</instance>
+		<instance name="iborSwap:{tradeId}" type="IborSwap" sql="select instrumentId,tradeId,payParty,receiveParty,notional,issueDate, maturityDate,floatingCurveId,floatingCurveName,discountCurveId,discountCurveName,fixedRate,tradeDate,type,couponFrequency as frequency ,iborIndex from IborSwap">
+			<attributes />
+			<reference name="payParty"
+				sql="select CompanyName from Company where id={payParty}"/>
+			<reference name="receiveParty"
+				sql="select CompanyName from Company where id={receiveParty}"/>
+			<reference name="iborIndex"
+				sql="select Name from IborIndices where instrumentId={iborIndex}"/>
+			<operation name="pv">
+				<parameter name="valuationDate" value="2014/01/22" />
+				<parameter name="floatingCurve" value="{floatingCurveName}" />
+				<parameter name="discountCurve" value="{discountCurveName}" />
+				<return returnName="swapTradePv{tradeId}"/>
+				<factory
+					class="com.tere.grid.opengamma.VanillaFixedVsLibor3mSwapFactory" />
+			</operation>
+		</instance>
+	</instances>
+</model>
