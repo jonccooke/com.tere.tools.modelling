@@ -622,7 +622,7 @@ public class TModelXMLReader
 
 		try
 		{
-			reader = new XmlReader(inputStream);
+			reader = XmlReader.reader(inputStream);
 
 			reader.list(rootPath + "package", this::createPackage);
 		}
